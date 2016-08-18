@@ -21,7 +21,7 @@ React table component.
 
 ## install
 
-[![rc-table](https://nodei.co/npm/rc-table.png)](https://npmjs.org/package/rc-table)
+<!--[![rc-table](https://nodei.co/npm/rc-table.png)](https://npmjs.org/package/rc-table)-->
 
 ## Development
 
@@ -292,4 +292,4 @@ React.render(<Table columns={columns} data={data} />, mountNode);
 
 ## License
 
-rc-table is released under the MIT license.
+table-v7 is released under the MIT license.
