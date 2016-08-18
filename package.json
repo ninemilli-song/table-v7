@@ -1,6 +1,6 @@
 {
   "name": "rc-table",
-  "version": "4.4.7",
+  "version": "1.0.0",
   "description": "table ui component for react",
   "keywords": [
     "react",
@@ -14,14 +14,13 @@
     "assets/*.css"
   ],
   "main": "./lib/index",
-  "homepage": "http://github.com/react-component/table",
+  "homepage": "https://github.com/ninemilli-song/table-v7",
   "maintainers": [
-    "yiminghe@gmail.com",
-    "afc163@gmail.com"
+    "ninemilli.song@gmail.com"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/table.git"
+    "url": "git@github.com:ninemilli-song/table-v7.git"
   },
   "bugs": {
     "url": "http://github.com/react-component/table/issues"
