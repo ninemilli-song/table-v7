@@ -1,7 +1,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Table = require('rc-table');
-require('rc-table/assets/index.less');
+const Table = require('table-v7');
+require('table-v7/assets/index.less');
 
 const columns = [
   { title: 'First Name', dataIndex: 'names.first', key: 'a', width: 100 },

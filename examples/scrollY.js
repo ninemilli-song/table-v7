@@ -1,8 +1,8 @@
 /* eslint-disable no-console,func-names,react/no-multi-comp */
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Table = require('rc-table');
-require('rc-table/assets/index.less');
+const Table = require('table-v7');
+require('table-v7/assets/index.less');
 
 const data = [];
 for (let i = 0; i < 10; i++) {
