@@ -22010,6 +22010,10 @@
 	      if (bodyStyle.minHeight) {
 	        bodyStyle.minHeight = bodyStyle.minHeight || scroll.y;
 	      }
+	      // if maxHeight greater than the minHeight, then use the maxHeight. by songxg 2016/08/25
+	      if (body.maxHeight > body.minHeight) {
+	        body.minHeight = body.maxHeight;
+	      }
 	      bodyStyle.overflowY = bodyStyle.overflowY || 'scroll';
 	      useFixedHeader = true;
 	
