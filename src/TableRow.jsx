@@ -85,23 +85,47 @@ const TableRow = React.createClass({
           </td>
         );
       }
+
       const isColumnHaveExpandIcon = expandIconAsCell ? false : (i === expandIconColumnIndex);
-      cells.push(
-        <TableCell
-          prefixCls={prefixCls}
-          record={record}
-          indentSize={indentSize}
-          indent={indent}
-          index={index}
-          expandable={expandable}
-          onExpand={onExpand}
-          needIndentSpaced={needIndentSpaced}
-          expanded={expanded}
-          isColumnHaveExpandIcon={isColumnHaveExpandIcon}
-          column={columns[i]}
-          key={columns[i].key}
-        />
-      );
+      // multiple table
+      if (columns[i].columns && columns[i].columns.length) {
+        columns[i].columns.forEach((c, i) => {
+          cells.push(
+              <TableCell
+                  prefixCls={prefixCls}
+                  record={record}
+                  indentSize={indentSize}
+                  indent={indent}
+                  index={index + `-${i + 1}`}
+                  expandable={expandable}
+                  onExpand={onExpand}
+                  needIndentSpaced={needIndentSpaced}
+                  expanded={expanded}
+                  isColumnHaveExpandIcon={isColumnHaveExpandIcon}
+                  column={c}
+                  key={c.key}
+                  />
+          );
+        });
+      }
+      else {
+        cells.push(
+            <TableCell
+                prefixCls={prefixCls}
+                record={record}
+                indentSize={indentSize}
+                indent={indent}
+                index={index}
+                expandable={expandable}
+                onExpand={onExpand}
+                needIndentSpaced={needIndentSpaced}
+                expanded={expanded}
+                isColumnHaveExpandIcon={isColumnHaveExpandIcon}
+                column={columns[i]}
+                key={columns[i].key}
+                />
+        );
+      }
     }
 
     return (

@@ -193,11 +193,44 @@ const Table = React.createClass({
         title: '',
       });
     }
+
+    let levelToColumns = [];
     ths = ths.concat(columns || this.getCurrentColumns()).map(c => {
+      // level1 columns th add colspan and get level2 columns. by songxg 2016/08/31.
+      let hascols = false;
+      if (c.columns && c.columns.length > 0) {
+        c.colSpan = c.columns.length;
+        levelToColumns = levelToColumns.concat(c.columns);
+        hascols = true;
+      }
+
+      // add rowspan to level1 th
       if (c.colSpan !== 0) {
-        return <th key={c.key} colSpan={c.colSpan} className={c.className || ''}>{c.title}</th>;
+        return <th key={c.key} data-hascols={hascols} rowSpan={1} colSpan={c.colSpan} className={c.className || ''}>{c.title}</th>;
       }
     });
+
+    console.log('levelToColumns.length: ', levelToColumns.length);
+    if (levelToColumns.length > 0) {
+      ths = ths.map(th => {
+        console.log('ths map: ', th);
+        if (!th.props['data-hascols']) {
+          return React.cloneElement(th, {
+            rowSpan: 2,
+          })
+        }
+        return th;
+      })
+    }
+
+    //create level2 columns dom
+    let thsLevelTo = [];
+    thsLevelTo = levelToColumns.map(c => {
+      if (c.colSpan !== 0) {
+        return <th key={c.key} rowSpan={1} colSpan={c.colSpan} className={c.className || ''}>{c.title}</th>;
+      }
+    });
+
     const { fixedColumnsHeadRowsHeight } = this.state;
     const trStyle = (fixedColumnsHeadRowsHeight[0] && columns) ? {
       height: fixedColumnsHeadRowsHeight[0],
@@ -205,6 +238,9 @@ const Table = React.createClass({
     return showHeader ? (
       <thead className={`${prefixCls}-thead`}>
         <tr style={trStyle}>{ths}</tr>
+        {
+          thsLevelTo.length > 0 ? (<tr style={trStyle}>{thsLevelTo}</tr>) : null
+        }
       </thead>
     ) : null;
   },
