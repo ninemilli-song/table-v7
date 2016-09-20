@@ -1,200 +1,273 @@
 @tablePrefixCls: rc-table;
-@text-color             : #666;
+@text-color             : #555;
 @font-size-base         : 12px;
-@table-border-color: #e9e9e9;
-@table-head-background-color: #f3f3f3;
+@table-border-color: #F0F0F0;
+@table-head-background-color: #FFF;
+@table-border: #F0F0F0;
+@table-head-color: #555;
+@talbe-row-hover: #FBF2DC;
 
-.@{tablePrefixCls} {
+.borderBottom(@color:@table-border,@width:1px,@style:solid) {
+  border-bottom: @width+0px @style @color;
+}
+
+.borderTop(@color:@table-border,@width:1px,@style:solid) {
+  border-top: @width+0px @style @color;
+}
+
+.borderLeft(@color:@table-border,@width:1px,@style:solid) {
+  border-left: @width+0px @style @color;
+}
+
+.borderRight(@color:@table-border,@width:1px,@style:solid) {
+  border-right: @width+0px @style @color;
+}
+
+.@{tablePrefixCls}
+{
   font-size: @font-size-base;
+  font-family: "Helvetica Neue", "Helvetica", "Pingfang SC", "Hiragino Sans GB", "Microsoft YaHei", "Arial", "sans-serif";
   color: @text-color;
   transition: opacity 0.3s ease;
   position: relative;
   line-height: 1.5;
   overflow: hidden;
 
-  .@{tablePrefixCls}-scroll {
+  .@{tablePrefixCls}-scroll
+  {
     overflow: auto;
   }
 
-  .@{tablePrefixCls}-header {
+  .@{tablePrefixCls}-header
+  {
     overflow: hidden;
-    background: #f4f4f4;
+    background: @table-head-background-color;
   }
 
-  &-fixed-header &-body {
-    background: #fff;
+  &-fixed-header &-body
+  {
+    background: #FFF;
     position: relative;
   }
 
-  &-fixed-header &-body-inner {
+  &-fixed-header &-body-inner
+  {
     height: 100%;
     overflow: scroll;
   }
 
-  &-fixed-header &-scroll &-header {
+  &-fixed-header &-scroll &-header
+  {
     overflow-x: scroll;
     padding-bottom: 20px;
     margin-bottom: -20px;
     overflow-y: scroll;
     box-sizing: border-box;
+    color: @table-head-color;
+    font-weight: 700;
   }
 
-  .@{tablePrefixCls}-title {
-    padding: 16px 8px;
-    border-top: 1px solid #e9e9e9;
+  .@{tablePrefixCls}-title
+  {
+    padding: 14px 8px;
+    border-top: 1px solid #E9E9E9;
   }
 
-  .@{tablePrefixCls}-content {
+  .@{tablePrefixCls}-content
+  {
     position: relative;
   }
 
-  .@{tablePrefixCls}-footer {
+  .@{tablePrefixCls}-footer
+  {
     padding: 16px 8px;
-    border-bottom: 1px solid #e9e9e9;
+    border-bottom: 1px solid #E9E9E9;
   }
 
-  table {
+  table
+  {
     width: 100%;
     border-collapse: separate;
     text-align: left;
   }
 
-  th {
+  th
+  {
     background: @table-head-background-color;
-    font-weight: bold;
+    font-weight: 700;
     transition: background .3s ease;
     position: relative;
+    .borderBottom();
+    .borderTop();
   }
 
-  td {
+  td
+  {
     border-bottom: 1px solid @table-border-color;
   }
 
-  tr {
+  tr
+  {
     transition: all .3s ease;
-    &:hover {
-      background: #eaf8fe;
+    .borderBottom();
+    &:hover
+    {
+      background: @talbe-row-hover
     }
-    &.@{tablePrefixCls}-row-hover {
-      background: #eaf8fe;
+    &.@{tablePrefixCls}-row-hover
+    {
+      background: @talbe-row-hover
     }
   }
 
-  th, td {
-    padding: 16px 8px;
+  th
+  {
+    padding: 13px 8px;
+  }
+  td
+  {
+    padding: 8.5px 8px;
   }
 }
 
-.@{tablePrefixCls} {
-  &-expand-icon-col {
+.@{tablePrefixCls}
+{
+  &-expand-icon-col
+  {
     width: 10px;
   }
-  &-row, &-expanded-row {
-    &-expand-icon {
+  &-row, &-expanded-row
+  {
+    &-expand-icon
+    {
       cursor: pointer;
       display: inline-block;
       width: 16px;
       height: 16px;
       text-align: center;
       line-height: 16px;
-      border: 1px solid #e9e9e9;
+      border: 1px solid #E9E9E9;
       user-select: none;
-      background: #fff;
+      background: #FFF;
     }
-    &-spaced {
+    &-spaced
+    {
       visibility: hidden;
     }
-    &-spaced:after {
+    &-spaced:after
+    {
       content: '.'
     }
 
-    &-expanded:after {
+    &-expanded:after
+    {
       content: '-'
     }
 
-    &-collapsed:after {
+    &-collapsed:after
+    {
       content: '+'
     }
   }
-  tr&-expanded-row {
-    background: #f7f7f7;
-    &:hover {
-      background: #f7f7f7;
+  tr&-expanded-row
+  {
+    background: #F7F7F7;
+    &:hover
+    {
+      background: #F7F7F7;
     }
   }
-  &-column-hidden {
+  &-column-hidden
+  {
     display: none;
   }
   &-prev-columns-page,
-  &-next-columns-page {
+  &-next-columns-page
+  {
     cursor: pointer;
     color: #666;
     z-index: 1;
-    &:hover {
-      color: #2db7f5;
+    &:hover
+    {
+      color: #2DB7F5;
     }
-    &-disabled {
+    &-disabled
+    {
       cursor: not-allowed;
       color: #999;
-      &:hover {
+      &:hover
+      {
         color: #999;
       }
     }
   }
-  &-prev-columns-page {
+  &-prev-columns-page
+  {
     margin-right: 8px;
-    &:before {
+    &:before
+    {
       content: '<';
     }
   }
-  &-next-columns-page {
+  &-next-columns-page
+  {
     float: right;
-    &:before {
+    &:before
+    {
       content: '>';
     }
   }
 
   &-fixed-left,
-  &-fixed-right {
+  &-fixed-right
+  {
     position: absolute;
     top: 0;
     overflow: hidden;
     z-index: 1;
-    table {
+    table
+    {
       width: auto;
-      background: #fff;
+      background: #FFF;
     }
   }
 
-  &-fixed-left {
+  &-fixed-left
+  {
     left: 0;
     box-shadow: 4px 0 4px rgba(100, 100, 100, 0.1);
-    & .@{tablePrefixCls}-body-inner {
+    & .@{tablePrefixCls}-body-inner
+    {
       margin-right: -20px;
       padding-right: 20px;
     }
-    .@{tablePrefixCls}-fixed-header & .@{tablePrefixCls}-body-inner {
+    .@{tablePrefixCls}-fixed-header & .@{tablePrefixCls}-body-inner
+    {
       padding-right: 0;
     }
   }
 
-  &-fixed-right {
+  &-fixed-right
+  {
     right: 0;
     box-shadow: -4px 0 4px rgba(100, 100, 100, 0.1);
 
     // hide expand row content in right fixed Table
     // https://github.com/ant-design/ant-design/issues/1898
-    .@{tablePrefixCls}-expanded-row {
+    .@{tablePrefixCls}-expanded-row
+    {
       color: transparent;
       pointer-events: none;
     }
   }
 
-  &&-scroll-position-left &-fixed-left {
+  &&-scroll-position-left &-fixed-left
+  {
     box-shadow: none;
   }
 
-  &&-scroll-position-right &-fixed-right {
+  &&-scroll-position-right &-fixed-right
+  {
     box-shadow: none;
   }
 }
