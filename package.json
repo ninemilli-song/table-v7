@@ -16,7 +16,8 @@
   "main": "./lib/index",
   "homepage": "https://github.com/ninemilli-song/table-v7",
   "maintainers": [
-    "ninemilli.song@gmail.com"
+    "ninemilli.song@gmail.com",
+    "wangyapeng"
   ],
   "repository": {
     "type": "git",
