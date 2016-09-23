@@ -51,7 +51,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		21:0
+/******/ 		22:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -97,7 +97,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"animation","1":"childrenIndent","2":"className","3":"colspan-rowspan","4":"dropdown","5":"expandedRowRender","6":"fixedColumns","7":"fixedColumns-auto-height","8":"fixedColumnsAndHeader","9":"fixedColumnsAndHeaderSyncRowHeight","10":"hide-header","11":"key","12":"nested","13":"pagingColumns","14":"rowClick","15":"scrollX","16":"scrollXY","17":"scrollY","18":"simple","19":"subTable","20":"title-and-footer"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"animation","1":"childrenIndent","2":"className","3":"colspan-rowspan","4":"dropdown","5":"expandedRowRender","6":"fixedColumns","7":"fixedColumns-auto-height","8":"fixedColumnsAndHeader","9":"fixedColumnsAndHeaderSyncRowHeight","10":"hide-header","11":"key","12":"multipleHead","13":"nested","14":"pagingColumns","15":"rowClick","16":"scrollX","17":"scrollXY","18":"scrollY","19":"simple","20":"subTable","21":"title-and-footer"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -21786,15 +21786,52 @@
 	        title: ''
 	      });
 	    }
+	
+	    var levelToColumns = [];
 	    ths = ths.concat(columns || this.getCurrentColumns()).map(function (c) {
+	      // level1 columns th add colspan and get level2 columns. by songxg 2016/08/31.
+	      var hascols = false;
+	      if (c.columns && c.columns.length > 0) {
+	        c.colSpan = c.columns.length;
+	        levelToColumns = levelToColumns.concat(c.columns);
+	        hascols = true;
+	      }
+	
+	      // add rowspan to level1 th
 	      if (c.colSpan !== 0) {
 	        return _react2.default.createElement(
 	          'th',
-	          { key: c.key, colSpan: c.colSpan, className: c.className || '' },
+	          { key: c.key, 'data-hascols': hascols, rowSpan: 1, colSpan: c.colSpan, className: c.className || '' },
 	          c.title
 	        );
 	      }
 	    });
+	
+	    console.log('levelToColumns.length: ', levelToColumns.length);
+	    if (levelToColumns.length > 0) {
+	      ths = ths.map(function (th) {
+	        console.log('ths map: ', th);
+	        if (!th.props['data-hascols']) {
+	          return _react2.default.cloneElement(th, {
+	            rowSpan: 2
+	          });
+	        }
+	        return th;
+	      });
+	    }
+	
+	    //create level2 columns dom
+	    var thsLevelTo = [];
+	    thsLevelTo = levelToColumns.map(function (c) {
+	      if (c.colSpan !== 0) {
+	        return _react2.default.createElement(
+	          'th',
+	          { key: c.key, rowSpan: 1, colSpan: c.colSpan, className: c.className || '' },
+	          c.title
+	        );
+	      }
+	    });
+	
 	    var fixedColumnsHeadRowsHeight = this.state.fixedColumnsHeadRowsHeight;
 	
 	    var trStyle = fixedColumnsHeadRowsHeight[0] && columns ? {
@@ -21807,7 +21844,12 @@
 	        'tr',
 	        { style: trStyle },
 	        ths
-	      )
+	      ),
+	      thsLevelTo.length > 0 ? _react2.default.createElement(
+	        'tr',
+	        { style: trStyle },
+	        thsLevelTo
+	      ) : null
 	    ) : null;
 	  },
 	  getExpandedRow: function getExpandedRow(key, content, visible, className, fixed) {
@@ -22481,7 +22523,7 @@
 	
 	    var cells = [];
 	
-	    for (var i = 0; i < columns.length; i++) {
+	    var _loop = function _loop(i) {
 	      if (expandIconAsCell && i === 0) {
 	        cells.push(_react2.default.createElement(
 	          'td',
@@ -22499,21 +22541,46 @@
 	          })
 	        ));
 	      }
+	
 	      var isColumnHaveExpandIcon = expandIconAsCell ? false : i === expandIconColumnIndex;
-	      cells.push(_react2.default.createElement(_TableCell2.default, {
-	        prefixCls: prefixCls,
-	        record: record,
-	        indentSize: indentSize,
-	        indent: indent,
-	        index: index,
-	        expandable: expandable,
-	        onExpand: onExpand,
-	        needIndentSpaced: needIndentSpaced,
-	        expanded: expanded,
-	        isColumnHaveExpandIcon: isColumnHaveExpandIcon,
-	        column: columns[i],
-	        key: columns[i].key
-	      }));
+	      // multiple table
+	      if (columns[i].columns && columns[i].columns.length) {
+	        columns[i].columns.forEach(function (c, i) {
+	          cells.push(_react2.default.createElement(_TableCell2.default, {
+	            prefixCls: prefixCls,
+	            record: record,
+	            indentSize: indentSize,
+	            indent: indent,
+	            index: index + ('-' + (i + 1)),
+	            expandable: expandable,
+	            onExpand: onExpand,
+	            needIndentSpaced: needIndentSpaced,
+	            expanded: expanded,
+	            isColumnHaveExpandIcon: isColumnHaveExpandIcon,
+	            column: c,
+	            key: c.key
+	          }));
+	        });
+	      } else {
+	        cells.push(_react2.default.createElement(_TableCell2.default, {
+	          prefixCls: prefixCls,
+	          record: record,
+	          indentSize: indentSize,
+	          indent: indent,
+	          index: index,
+	          expandable: expandable,
+	          onExpand: onExpand,
+	          needIndentSpaced: needIndentSpaced,
+	          expanded: expanded,
+	          isColumnHaveExpandIcon: isColumnHaveExpandIcon,
+	          column: columns[i],
+	          key: columns[i].key
+	        }));
+	      }
+	    };
+	
+	    for (var i = 0; i < columns.length; i++) {
+	      _loop(i);
 	    }
 	
 	    return _react2.default.createElement(
