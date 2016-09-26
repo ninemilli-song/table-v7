@@ -6,6 +6,8 @@
 @table-border: #F0F0F0;
 @table-head-color: #555;
 @talbe-row-hover: #FBF2DC;
+@table-row-odd: #f6f6f6;
+@table-row-even: #ffffff;
 
 .borderBottom(@color:@table-border,@width:1px,@style:solid) {
   border-bottom: @width+0px @style @color;
@@ -116,7 +118,15 @@
     }
     &.@{tablePrefixCls}-row-hover
     {
-      background: @talbe-row-hover
+      background: @talbe-row-hover !important;
+    }
+    &.@{tablePrefixCls}-row-odd
+    {
+      background: @table-row-odd
+    }
+    &.@{tablePrefixCls}-row-even
+    {
+      background: @table-row-even
     }
   }
 

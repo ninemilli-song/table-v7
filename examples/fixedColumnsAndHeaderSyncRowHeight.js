@@ -5,7 +5,7 @@ const Table = require('table-v7');
 require('table-v7/assets/index.less');
 
 const columns = [
-  { title: '表头1', dataIndex: 'a', key: 'a', width: 100, fixed: 'left' },
+  { title: '表头1', dataIndex: 'a', key: 'a', width: 100, fixed: 'left',className:"hh" },
   { title: '表头2', dataIndex: 'b', key: 'b', width: 100, fixed: 'left' },
   { title: '表头表头3', dataIndex: 'c', key: 'c' },
   { title: '表头4', dataIndex: 'c', key: 'd', width: 150 },

@@ -288,7 +288,15 @@ const Table = React.createClass({
       if (expandedRowRender && isRowExpanded) {
         expandedRowContent = expandedRowRender(record, i);
       }
+
       let className = rowClassName(record, i);
+
+      if (i % 2 === 0) {
+	    className += `${props.prefixCls}-row-odd`
+      } else {
+	    className += `${props.prefixCls}-row-even`
+      }
+
       if (this.state.currentHoverKey === key) {
         className += ` ${props.prefixCls}-row-hover`;
       }
