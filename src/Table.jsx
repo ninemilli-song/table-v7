@@ -290,13 +290,6 @@ const Table = React.createClass({
       }
 
       let className = rowClassName(record, i);
-
-      if (i % 2 === 0) {
-	    className += `${props.prefixCls}-row-odd`
-      } else {
-	    className += `${props.prefixCls}-row-even`
-      }
-
       if (this.state.currentHoverKey === key) {
         className += ` ${props.prefixCls}-row-hover`;
       }
